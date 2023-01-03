@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CI: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup repository
+        uses: ./.github/actions/setup-repo
+
+      - name: 🚀 Create and publish versions
+        uses: changesets/action@v1
+        with:
+          version: pnpm version
+          commit: 'chore: update versions'
+          title: 'chore: update versions'
+          publish: pnpm release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

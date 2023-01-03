@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  CI: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup repository
+        uses: ./.github/actions/setup-repo
+
+      - name: 🕵️ Test
+        run: pnpm test
+
+      - name: 🕵️ Typecheck
+        run: pnpm typecheck
+
+      - name: 🚧 Build
+        run: pnpm build
